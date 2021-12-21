@@ -5,8 +5,11 @@
 package com.yyy.controller.after;
 import com.yyy.pojo.Comment;
 import com.yyy.service.CommentService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 //如何实现？
@@ -15,14 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
         //1-1：先找一个semantic ui的弹出框， 点击删除，让它先弹出来。
         //1-2: 实现了可以弹出来的效果后， 进行session判断，有session=user那么不弹出来
                 //没有的话，弹出来，点击登录，判断账号密码，确认后存入session
-
+@Api(tags = {"后台评论Controller"})
 @Controller
 public class AfterCommentController {
     @Autowired
     private CommentService commentService;
 
     //1、删除（博客）评论
-    @RequestMapping("/after/delComment")
+    @ApiOperation(value = "删除（博客）评论")
+    @GetMapping("/after/delComment")
     public String delComment(Comment comment){
         commentService.delCommentbyComment(comment);    //删除评论：通过comment对象
 

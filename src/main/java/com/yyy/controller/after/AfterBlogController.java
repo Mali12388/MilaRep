@@ -12,21 +12,22 @@ import com.yyy.service.CommentService;
 import com.yyy.service.TagService;
 import com.yyy.service.TypeService;
 import com.yyy.vo.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
 /**
  * 后台博客：controller
  */
+@Api(tags = {"后台博客列表Controller"})
 @Controller
 public class AfterBlogController {
     Logger logger = LoggerFactory.getLogger(getClass());
@@ -44,8 +45,9 @@ public class AfterBlogController {
     private CommentService commentService;
 
     //1、跳转：博客列表
-    @RequestMapping("/after/blog-list")
-    public  String blogList(Model model){
+    @GetMapping("/after/blog-list")
+    @ApiOperation(value = "后台跳转博客列表")
+    public  String blogList(@ApiIgnore Model model){
         List<Type> types = typeService.queryAllTypes();
         model.addAttribute("types", types);
 
@@ -53,7 +55,8 @@ public class AfterBlogController {
     }
 
     //2、显示：表格
-    @RequestMapping("/after/showBlogTable")
+    @ApiOperation(value = "后台显示表格")
+    @GetMapping("/after/showBlogTable")
     @ResponseBody
     public DataVO<BlogVO> list(Integer page, Integer limit, SearchBlogInfo searchBlogInfo){
         DataVO<BlogVO> data = new DataVO<>();
@@ -70,7 +73,8 @@ public class AfterBlogController {
     }
 
     //3、修改：(推荐、评论、赞赏、版权)按钮状态
-    @RequestMapping("/after/updSwitch")
+    @ApiOperation(value = "后台修改(推荐、评论、赞赏、版权)按钮状态")
+    @PostMapping("/after/updSwitch")
     @ResponseBody
     public String t1(SwitchVO switchVO){
         int i = blogService.updBlogSwitch(switchVO);
@@ -82,8 +86,9 @@ public class AfterBlogController {
     }
 
     //2、跳转：博客添加页面
-    @RequestMapping("/after/toAddBlogPage")
-    public String toAddBlogPage(Model model){
+    @ApiOperation(value = "后台跳转博客添加页面")
+    @GetMapping("/after/toAddBlogPage")
+    public String toAddBlogPage(@ApiIgnore Model model){
         List<Type> types = typeService.queryAllTypesNotSort();
         model.addAttribute("types", types);
 
@@ -92,6 +97,7 @@ public class AfterBlogController {
     }
 
     //3、添加博客
+    @ApiOperation(value = "后台博客添加页面")
     @PostMapping("/after/addBlog")
     public String addBlog(BlogInfo blogInfo){
         Long id = blogService.addBlog(blogInfo);
@@ -101,7 +107,8 @@ public class AfterBlogController {
     }
 
     //4、跳转：修改博客页面
-    @RequestMapping("/after/toUpdBlogPage/{id}")
+    @ApiOperation(value = "后台跳转博客修改页面")
+    @GetMapping("/after/toUpdBlogPage/{id}")
     public String toUpdBlogPage(@PathVariable Long id, Model model){
         model.addAttribute("tags", tagService.queryTagIdByBlogId(id));
         model.addAttribute("types", typeService.queryAllTypesNotSort());
@@ -111,7 +118,8 @@ public class AfterBlogController {
     }
 
     //5、正式修改：博客
-    @RequestMapping("/after/updBlog")
+    @ApiOperation(value = "后台博客修改页面")
+    @PostMapping("/after/updBlog")
     public String updBlog(BlogInfo blogInfo){
         blogService.updBlog(blogInfo);                  //更新blog
         tagService.delTagByBlogId(blogInfo.getBid());   //删除：blog_tag表中：旧blogId的所有标签
@@ -120,7 +128,8 @@ public class AfterBlogController {
     }
 
     //6、批量：选中博客 （单篇、多篇皆可）
-    @RequestMapping("/after/delAllBlog")
+    @ApiOperation(value = "后台批量删除选中博客")
+    @PostMapping("/after/delAllBlog")
     @ResponseBody
     public String delAllBlog(Long[] ids){
         for(Long id:ids){

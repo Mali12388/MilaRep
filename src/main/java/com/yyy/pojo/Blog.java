@@ -34,7 +34,9 @@ public class Blog {
     private Type type;                  //多篇博客 ===>>> 一个类型
     private List<Tag> tags = new ArrayList<>();     //多篇博客 <==> 多个标签
     private String description;         //博客描述
+
     private String tagIds;              //用于存放：前端传来的（标签索引）例如：1, 2, 3
+
     private List<Comment> comments = new ArrayList<>();     //一篇博客 ==>> 多条评论
     private Integer commentNum;         //评论的次数（不放入：数据库）
 

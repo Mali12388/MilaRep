@@ -10,12 +10,15 @@ import com.yyy.pojo.Blog;
 import com.yyy.pojo.Type;
 import com.yyy.service.BlogService;
 import com.yyy.service.TypeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +27,7 @@ import java.util.List;
 /**
  * 前端分类：controller
  */
-
+@Api(tags = {"前端分类controller"})
 @Controller
 public class FrontTypeController {
     @Autowired
@@ -39,7 +42,8 @@ public class FrontTypeController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     //类型页面
-    @RequestMapping(value = {"/front/types/{id}","/front/types"})
+    @ApiOperation(value = "类型页面")
+    @GetMapping(value = {"/front/types/{id}","/front/types"})
     public String types(@PathVariable(required = false) Long id,
                         @RequestParam(required = false,defaultValue = "0")Long myid,
                         @RequestParam(required = false,defaultValue = "1")int pagenum,

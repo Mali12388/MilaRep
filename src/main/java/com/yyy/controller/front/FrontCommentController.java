@@ -7,11 +7,13 @@ package com.yyy.controller.front;
 import com.yyy.pojo.Comment;
 import com.yyy.pojo.User;
 import com.yyy.service.CommentService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpSession;
 /**
  * 前端：评论类（controller）
  */
+@Api(tags = {"前端评论类controller"})
 @Controller
 public class FrontCommentController {
     @Autowired
@@ -26,7 +29,7 @@ public class FrontCommentController {
 
 
     //插入一条：评论信息
-    @RequestMapping("/front/comments")
+    @PostMapping("/front/comments")
     public String commentAdd(Comment comment, Model model, HttpSession session){
         Object user = session.getAttribute("user");
         if(user != null){   //看是否：登录
@@ -43,7 +46,7 @@ public class FrontCommentController {
 
     //查询评论信息
     //插入一条：评论信息
-    @RequestMapping("/front/comments/{id}")
+    @GetMapping("/front/comments/{id}")
     public String commentAdd(@PathVariable Long id,Model model){
 
         model.addAttribute("comments", commentService.queryCommentByBlogId(id));

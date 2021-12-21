@@ -7,17 +7,22 @@ package com.yyy.controller.after;
 
 import com.yyy.pojo.User;
 import com.yyy.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpSession;
 
 /**
  * 后台登录：
  */
+@Api(tags = {"用户登录Controller"})
 @Controller
 public class AfterLoginController {
     @Autowired
@@ -30,15 +35,17 @@ public class AfterLoginController {
      * @param session   用来存放：错误信息 Or  用户名
      * @return
      */
-    @RequestMapping("/after/login")
+    @ApiOperation(value = "用户登录")
+    @PostMapping("/after/login")
     public String index(@RequestParam String username,
                         @RequestParam String password,
-                        Model model, HttpSession session){
+                        @ApiIgnore Model model,  @ApiIgnore HttpSession session){
 
         User user = userService.queryUserByCode(username, password);
 
         //判断：user是否存在
         if(user == null){
+            
             model.addAttribute("message", "用户名或密码错误!!!");
             return "front/login";     //跳转到：登录页面
         }

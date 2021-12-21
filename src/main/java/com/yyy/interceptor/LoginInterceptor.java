@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
  * 拦截器作用：
  *      日志记录，权限检查，性能监控，通用行为
  */
+//判断是否登录 登录就可以访问后台 没有登录只能访问前台
 public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request,

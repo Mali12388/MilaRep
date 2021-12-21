@@ -2,6 +2,7 @@ package com.yyy.mapper;
 import com.yyy.pojo.Blog;
 import com.yyy.vo.SearchBlogInfo;
 import com.yyy.vo.SwitchVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public interface BlogMapper {
     List<Blog> selAllBlogByYear(Integer year);
 
     //8、查询：通过（搜索字符串），模糊查询（标题、内容、描述）包含的所有博客
-    List<Blog> selAllBlogByQueryStr(String query);
+    List<Blog> selAllBlogByQueryStr(@Param("query") String query);
 
     //7、更新：通过（博客id）， 更新博客（访问次数+1）
     int updViewsNumById(Long id);

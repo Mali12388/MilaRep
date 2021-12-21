@@ -7,9 +7,12 @@ package com.yyy.controller.front;
 
 import com.yyy.pojo.Blog;
 import com.yyy.service.BlogService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,14 +21,15 @@ import java.util.List;
 /**
  * 归档类（前端）： controller
  */
-
+@Api(tags = {"前端归档类controller"})
 @Controller
 public class FrontArchivesController {
     @Autowired
     private BlogService blogService;
 
     //1、跳转：归档页面
-    @RequestMapping(value = {"/front/archives", "/front/archives/{year}"})
+    @ApiOperation(value = "跳转归档页面")
+    @GetMapping(value = {"/front/archives", "/front/archives/{year}"})
     public String archives(Model model,
                            @PathVariable(required = false) Integer year) {
 

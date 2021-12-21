@@ -11,9 +11,11 @@ import com.yyy.service.BlogService;
 import com.yyy.service.CommentService;
 import com.yyy.service.TagService;
 import com.yyy.util.MarkdownUtils;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,6 +25,7 @@ import java.util.List;
 /**
  * 前端：博客（controller）
  */
+@Api(tags = {"前端博客controller"})
 @Controller
 public class FrontBlogController {
     @Autowired
@@ -35,7 +38,7 @@ public class FrontBlogController {
     TagService tagService;
 
     //跳转：文章页面
-    @RequestMapping("/front/blog/{id}")
+    @GetMapping("/front/blog/{id}")
     public String blog(@PathVariable Long id, Model model){
         //1、通过ID获取到：博客
         Blog blog = blogService.queryBlogInfoById(id);

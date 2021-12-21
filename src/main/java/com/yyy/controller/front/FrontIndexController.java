@@ -7,9 +7,12 @@ package com.yyy.controller.front;
 
 import com.yyy.pojo.Blog;
 import com.yyy.service.BlogService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,13 +21,15 @@ import java.util.List;
 /**
  * 前端：首页（controller）
  */
+@Api(tags = {"前端首页controller"})
 @Controller
 public class FrontIndexController {
     @Autowired
     BlogService blogService;            //blog对象的：业务层
 
     //1、将（推荐、最近修改时间） 的（前5篇文章）， 显示在index上：无序分页
-    @RequestMapping(value = {"/", "/index"})
+    @ApiOperation(value = "将（推荐、最近修改时间） 的（前5篇文章）")
+    @GetMapping(value = {"/", "/index"})
     public String index(Model model){
         List<Blog> blogs = blogService.queryRecoUpdFive();//查询：选推荐、最新的5篇文章
 

@@ -13,25 +13,26 @@ import com.yyy.vo.DataVO;
 import com.yyy.vo.TagInfo;
 import com.yyy.vo.TagVO;
 import com.yyy.vo.TypeVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Api(tags = {"后台标签Controller"})
 @Controller
 public class AfterTagController {
     @Autowired
     TagService tagService;
 
     //1、查询所有的：tags
-    @RequestMapping("/after/selTags")
+    @ApiOperation(value = "查询所有的标签")
+    @GetMapping("/after/selTags")
     @ResponseBody
     public List<TagInfo> selTags(){
         List<TagInfo> tagInfo = tagService.queryAllTag();//查询：所有的tag
@@ -39,13 +40,15 @@ public class AfterTagController {
     }
 
     //2-1: 跳转到（标签列表）
-    @RequestMapping("/after/tagList")
+    @ApiOperation(value = "跳转到标签列表")
+    @GetMapping("/after/tagList")
     public String tagList(){
         return "after/tag-list";
     }
 
     //2-2、异步返回：标签（列表）数据
-    @RequestMapping("/after/queryAllTag")
+    @ApiOperation(value = "异步返回标签（列表）数据")
+    @GetMapping("/after/queryAllTag")
     @ResponseBody
     public DataVO<TagVO>  queryAllTag(Integer page, Integer limit){
         DataVO<TagVO> dataVO = new DataVO<>();
@@ -65,13 +68,15 @@ public class AfterTagController {
 
 
     //3-1：跳转修改：标签页面
-    @RequestMapping("/after/tagUpdForm")
+    @ApiOperation(value = "跳转修改标签页面")
+    @GetMapping("/after/tagUpdForm")
     public String tagForm(){
         return "after/tag-updForm";
     }
 
     //3-2：、正式修改（标签名称）
-    @RequestMapping("/after/updTag")
+    @ApiOperation(value = "正式修改标签名称")
+    @PostMapping("/after/updTag")
     @ResponseBody
     public String updTag(Long tagId, String newTagName){
         int i = tagService.updateTagName(tagId, newTagName);
@@ -83,13 +88,15 @@ public class AfterTagController {
     }
 
     //4-1：跳转：新增标签页面
-    @RequestMapping("/after/tagAddPage")
+    @ApiOperation(value = "跳转新增标签页面")
+    @GetMapping("/after/tagAddPage")
     public String tagAddPage(){
         return "after/tag-add";
     }
 
     //4-2：正式添加：tag
-    @RequestMapping("/after/tagAdd")
+    @ApiOperation(value = "正式添加标签")
+    @PostMapping("/after/tagAdd")
     public String tagAdd(Model model, @RequestParam String tagName){
         //传值过来的：tagName， 需要进行以下判断
         //state == 1   说明：tagName已存在， 无法添加.   ==>>（跳转after/tag-add）新增页面
@@ -113,7 +120,8 @@ public class AfterTagController {
 
 
     //5、删除分类：通过tagId
-    @RequestMapping("/after/delTag")
+    @ApiOperation(value = "删除标签")
+    @PostMapping("/after/delTag")
     @ResponseBody
     public String delType(Long tagId){
         //1：查询一下当前tagId所拥有的（博客数目）

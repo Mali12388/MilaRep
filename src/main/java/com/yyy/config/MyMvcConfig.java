@@ -20,6 +20,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
+             //配置白名单
                 .excludePathPatterns("/", "/index", "/front/**", "/after/login", "/common/**", "/error/**")
                 .excludePathPatterns("/css/**", "/js/**", "/images/**", "/fonts/**", "/lib/**");
     }

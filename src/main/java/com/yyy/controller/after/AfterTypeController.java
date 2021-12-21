@@ -8,18 +8,19 @@ import com.github.pagehelper.PageInfo;
 import com.yyy.service.TypeService;
 import com.yyy.vo.DataVO;
 import com.yyy.vo.TypeVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
  *  分类（控制层）：controller
  */
+@Api(tags = {"后台分类Controller"})
 @Controller
 public class AfterTypeController {
 
@@ -27,7 +28,8 @@ public class AfterTypeController {
     private TypeService typeService;            //类型：业务层对象
 
     //1-1: 跳转到（分类列表）
-    @RequestMapping("/after/typeList")
+    @ApiOperation(value = "跳转到分类列表")
+    @GetMapping("/after/typeList")
     public String typeList(){
 
         return "after/type-list";
@@ -35,7 +37,8 @@ public class AfterTypeController {
 
 
     //1-2、异步返回：分类（列表）数据
-    @RequestMapping("/after/queryAllType")
+    @ApiOperation(value = "异步返回分类（列表）数据")
+    @GetMapping("/after/queryAllType")
     @ResponseBody
     public DataVO<TypeVO>  queryAllType(Integer page, Integer limit){
         DataVO<TypeVO> dataVO = new DataVO<>();
@@ -54,13 +57,15 @@ public class AfterTypeController {
     }
 
     //2-1：跳转修改：分类页面
-    @RequestMapping("/after/typeUpdForm")
+    @ApiOperation(value = "跳转修改分类页面")
+    @GetMapping("/after/typeUpdForm")
     public String typeForm(){
         return "after/type-updForm";
     }
 
     //2-2：、正式修改（分类名称）
-    @RequestMapping("/after/updType")
+    @ApiOperation(value = "正式修改分类名称")
+    @PostMapping("/after/updType")
     @ResponseBody
     public String updType(Long typeId, String newTypeName){
         int i = typeService.updateTypeName(typeId, newTypeName);
@@ -72,13 +77,15 @@ public class AfterTypeController {
     }
 
     //3-1：跳转新增type：页面
-    @RequestMapping("/after/typeAddPage")
+    @ApiOperation(value = "跳转新增页面")
+    @GetMapping("/after/typeAddPage")
     public String typeAddPage(){
         return "after/type-add";
     }
 
     //3-2：正式添加：type
-    @RequestMapping("/after/typeAdd")
+    @ApiOperation(value = "正式添加类型")
+    @PostMapping("/after/typeAdd")
     public String typeAdd(Model model, @RequestParam String typeName){
         //传值过来的：typeName， 需要进行以下判断
             //state == 1   说明：typeName已存在， 无法添加.   ==>>（跳转after/type-add）新增页面
@@ -103,7 +110,8 @@ public class AfterTypeController {
 
 
     //4、删除分类：通过typeId
-    @RequestMapping("/after/delType")
+    @ApiOperation(value = "删除分类")
+    @PostMapping("/after/delType")
     @ResponseBody
     public String delType(Long typeId){
         //1：查询一下当前typeId所拥有的（博客数目）
